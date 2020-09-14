@@ -13,7 +13,7 @@ var CommentSchema = new Schema(
 );
 
 // Virtual for date formatted
-PostSchema
+CommentSchema
 .virtual('date_formatted')
 .get(function () {
     return moment.this.date.format('MMMM Do, YYYY');
