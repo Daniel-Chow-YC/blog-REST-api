@@ -10,4 +10,8 @@ router.get('/', userController.get_users)
 // Create a user
 router.post('/', userController.post_user)
 
+
+// Delete a user
+router.delete('/:id', userController.delete_user)
+
 module.exports = router;

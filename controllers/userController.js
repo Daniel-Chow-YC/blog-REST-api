@@ -1,5 +1,6 @@
 var User = require('../models/userModel');
 const { request } = require('express');
+const { findById } = require('../models/userModel');
 
 
 // Display all users
@@ -27,9 +28,19 @@ exports.post_user = function(req, res, next){
         if (err) {
             res.status(500).json({ message: 'error creating user', error: err.message})
         }
-        user.password = undefined
-        res.json(user)
+        user.password = undefined;
+        res.json(user);
 
+    });
+};
+
+// delete a user
+exports.delete_user = function(req, res, next) {
+    User.findByIdAndDelete(req.params.id, function(err, del_user){
+        if (err) {
+            res.status(400).json({message: 'Error, could not delete user', error: err})
+        }
+        del_user.password = undefined;
+        res.json({message: 'deleted user', deleted_user: del_user})
     })
-}
-
+};
