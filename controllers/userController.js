@@ -9,11 +9,13 @@ exports.get_users = function(req, res , next) {
     .exec(function (err, list_users ) {
         if (err) {
             return res.status(500).json({message: 'error fetching users', error: err.message})
-        };
-        list_users.forEach(obj => {
-            obj.password = undefined
-        })
-        res.json(list_users);
+        }
+        else {
+            list_users.forEach(obj => {
+                obj.password = undefined
+            })
+            res.json(list_users);
+        }
     })
 }; 
 
@@ -24,15 +26,31 @@ exports.post_user = function(req, res, next){
         password: req.body.password
     });
 
-    user.save(function (err) {
+    user.save(function (err, user) {
         if (err) {
             res.status(500).json({ message: 'error creating user', error: err.message})
         }
-        user.password = undefined;
-        res.json(user);
+        else {
+            user.password = undefined;
+            res.json(user);
+        };
 
     });
 };
+
+// find a specific user
+exports.get_user = function(req,res,next) {
+    User.findById(req.params.id, function(err, user) {
+        if (err) {
+            res.status(400).json({message: 'could not find user', error: err})
+        }
+        else {
+          user.password = undefined;
+          res.json(user);
+        }
+    });
+    
+}
 
 // delete a user
 exports.delete_user = function(req, res, next) {
@@ -40,7 +58,9 @@ exports.delete_user = function(req, res, next) {
         if (err) {
             res.status(400).json({message: 'Error, could not delete user', error: err})
         }
-        del_user.password = undefined;
-        res.json({message: 'deleted user', deleted_user: del_user})
+        else {
+            del_user.password = undefined;
+            res.json({message: 'deleted user', deleted_user: del_user})
+        }
     })
 };
