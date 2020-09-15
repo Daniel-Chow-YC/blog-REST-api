@@ -25,17 +25,24 @@ exports.post_user = function(req, res, next){
         username: req.body.username,
         password: req.body.password
     });
-
-    user.save(function (err, user) {
-        if (err) {
-            res.status(500).json({ message: 'error creating user', error: err.message})
+    // check if username is already taken
+    User.find({username: req.body.username}, (err, foundUsers) => {
+        if (err) return next(err);
+        else if (foundUsers.length) {
+            res.status(400).json({message: 'username is already taken'})
         }
         else {
-            user.password = undefined;
-            res.json(user);
-        };
-
-    });
+            user.save(function (err, user) {
+                if (err) {
+                    res.status(400).json({ message: 'error creating user', error: err.message})
+                }
+                else {
+                    user.password = undefined;
+                    res.json({message: 'user created' ,user});
+                };        
+            });
+        }
+    })
 };
 
 // find a specific user
@@ -61,6 +68,25 @@ exports.delete_user = function(req, res, next) {
         else {
             del_user.password = undefined;
             res.json({message: 'deleted user', deleted_user: del_user})
+        }
+    })
+};
+
+
+// update a user
+exports.update_user = async function(req, res, next){
+    let updated_user = new User({
+        _id: req.params.id,
+        username: req.body.username,
+        password: req.body.password
+    })
+    User.findByIdAndUpdate(req.params.id, updated_user, {new: true}, function(err, updated_user) {
+        if (err) {
+            res.status(400).json({error: err});
+        }
+        else {
+            updated_user.password = undefined;
+            res.json({message: 'updated user', user_updated: updated_user})
         }
     })
 };
