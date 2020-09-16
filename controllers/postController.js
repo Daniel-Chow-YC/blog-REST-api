@@ -61,3 +61,23 @@ exports.delete_post = function(req, res, next) {
         }
     })
 };
+
+// update post
+exports.update_post = function(req, res, next){
+    let post = new Post({
+        _id:  req.params.id,
+        title: req.body.title,
+        post: req.body.post,
+        author: req.body.author,
+        date: req.body.date
+    })
+    Post.findByIdAndUpdate(req.params.id, post, {new: true}, function(err, post) {
+        if (err) {
+            res.status(400).json({error: err});
+        }
+        else {
+            res.json({message: 'updated post', post_updated: post})
+        }
+    })
+}
+
