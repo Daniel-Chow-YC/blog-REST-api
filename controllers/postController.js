@@ -81,3 +81,14 @@ exports.update_post = function(req, res, next){
     })
 }
 
+// get all posts from a user
+exports.get_user_posts = function(req,res,next){
+    Post.find({author: req.params.id}, (err, list_posts)=>{
+        if (err) {
+            res.status(400).json({message: 'error getting posts', error: err})
+        }
+        else {
+            res.json(list_posts);
+        }
+    });
+}
