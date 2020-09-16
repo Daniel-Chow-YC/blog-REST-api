@@ -31,13 +31,15 @@ router.put('/:id', postController.update_post)
 // get all comments for a post
 router.get('/:id/comments', commentController.get_comments)
 
-// get a specfic comment
-router.get('/:id/comments/:commentid', commentController.get_comment)
-
 // create a comment for a post
 router.post('/:id/comments', commentController.create_comment);
 
-// // // delete a comment
-// // router.delete(':commentid', commentController.delete_comment)
+// get a specfic comment
+router.get('/:id/comments/:commentid', commentController.get_comment)
+
+// delete a comment
+router.delete('/:id/comments/:commentid', commentController.delete_comment)
+
+
 
 module.exports = router;

@@ -42,3 +42,15 @@ exports.create_comment = (req, res, next) => {
         }
     })
 };
+
+// delete a comment
+exports.delete_comment = (req, res, next) => {
+    Comment.findByIdAndDelete(req.params.commentid, (err, del_comment)=>{
+        if (err) {
+            res.status(400).json({message:'error, unable to delete comment', error: err})
+        }
+        else {
+            res.json({message:'deleted comment', deleted_comment: del_comment})
+        }
+    })
+};
