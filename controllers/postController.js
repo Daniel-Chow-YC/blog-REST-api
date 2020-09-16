@@ -35,8 +35,6 @@ exports.create_post = function(req, res, next){
     });
 };
 
-
-
 // get a specific post
 exports.get_post = function(req, res, next){
     Post.findById(req.params.id).populate('author')
@@ -50,3 +48,16 @@ exports.get_post = function(req, res, next){
         }
     })
 }
+
+// delete post
+exports.delete_post = function(req, res, next) {
+    Post.findByIdAndDelete(req.params.id, function(err, del_post){
+        if (err) {
+            res.status(400).json({message: 'Error, could not delete post', error: err})
+        }
+        else {
+            // del_user.password = undefined;
+            res.json({message: 'deleted post', deleted_post: del_post})
+        }
+    })
+};

@@ -12,8 +12,8 @@ router.post('/', postController.create_post)
 // get a specific post
 router.get('/:id', postController.get_post)
 
-// // delete a post
-// router.delete('/:id', postController.delete_post)
+// delete a post
+router.delete('/:id', postController.delete_post)
 
 // // update a post
 // router.put('/:id', postController.update_post)
