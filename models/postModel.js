@@ -6,7 +6,7 @@ var Schema = mongoose.Schema;
 var PostSchema = new Schema(
     {
       title: {type: String, required: true},
-      body: {type: String, required: true},
+      post: {type: String, required: true},
       author: {type: Schema.Types.ObjectId, ref: 'User', required: true },
       date: {type: Date, default: Date.now}
     }
@@ -20,4 +20,4 @@ PostSchema
 });
 
 // Export model
-module.export = mongoose.model("Post", PostSchema);
+module.exports = mongoose.model("Post", PostSchema);
