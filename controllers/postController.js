@@ -1,4 +1,5 @@
 var Post = require('../models/postModel');
+const { post } = require('../app');
 
 
 // Dislpay all blog posts
@@ -33,3 +34,19 @@ exports.create_post = function(req, res, next){
         }
     });
 };
+
+
+
+// get a specific post
+exports.get_post = function(req, res, next){
+    Post.findById(req.params.id).populate('author')
+    .exec((err, post) => {
+        if (err) {
+            res.status(400).json({message: 'error finding post', error:err})
+        }
+        else {
+            post.author.password = undefined;
+            res.json(post);
+        }
+    })
+}
