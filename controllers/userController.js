@@ -1,4 +1,5 @@
 var User = require('../models/userModel');
+const bcrypt = require('bcryptjs');
 const { request } = require('express');
 const { findById } = require('../models/userModel');
 
@@ -20,10 +21,12 @@ exports.get_users = function(req, res , next) {
 }; 
 
 // create a user
-exports.post_user = function(req, res, next){
+exports.post_user = async function(req, res, next){
+    let salt = await bcrypt.genSalt(10);
+    let hashed_pass = await bcrypt.hash(req.body.password, salt)
     let user = new User({
         username: req.body.username,
-        password: req.body.password
+        password: hashed_pass
     });
     // check if username is already taken
     User.find({username: req.body.username}, (err, foundUsers) => {
