@@ -3,6 +3,7 @@ var router = express.Router();
 
 var postController = require('../controllers/postController');
 var commentController = require('../controllers/commentController')
+var auth = require('../middleware/authenticateToken');
 
 // get all blog posts
 router.get('/', postController.get_posts);
@@ -17,7 +18,7 @@ router.post('/', postController.create_post)
 // get a specific post
 router.get('/:id', postController.get_post)
 
-// get all posts from thesame author/user
+// get all posts from the same author/user
 router.get('/users/:id', postController.get_user_posts)
 
 // delete a post
