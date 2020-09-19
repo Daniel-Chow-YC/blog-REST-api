@@ -13,7 +13,7 @@ router.get('/users', function(req, res) {
 });
 
 // create a post
-router.post('/', postController.create_post)
+router.post('/', auth.authenticateToken, postController.create_post)
 
 // get a specific post
 router.get('/:id', postController.get_post)
@@ -22,10 +22,10 @@ router.get('/:id', postController.get_post)
 router.get('/users/:id', postController.get_user_posts)
 
 // delete a post
-router.delete('/:id', postController.delete_post)
+router.delete('/:id', auth.authenticateToken, postController.delete_post)
 
 // update a post
-router.put('/:id', postController.update_post)
+router.put('/:id', auth.authenticateToken, postController.update_post)
 
 // -----------Comments---------------//
 
@@ -39,7 +39,7 @@ router.post('/:id/comments', commentController.create_comment);
 router.get('/:id/comments/:commentid', commentController.get_comment)
 
 // delete a comment
-router.delete('/:id/comments/:commentid', commentController.delete_comment)
+router.delete('/:id/comments/:commentid', auth.authenticateToken, commentController.delete_comment)
 
 
 

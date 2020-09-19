@@ -4,7 +4,7 @@ const indexController = require('../controllers/indexController')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'API' });
+  res.render('index', { title: 'Blog Post API' });
 });
 
 // login 
